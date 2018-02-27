@@ -25,8 +25,12 @@ show_log()    ## 函数定义
 
 
 echo "[1/9]download install file"
-PACKAGE="ags.tar.gz"
-fileurl="https://github.com/1000yun/ags/raw/master/${PACKAGE}"
+#PACKAGE="ags.tar.gz"
+#fileurl="https://github.com/1000yun/ags/raw/master/${PACKAGE}"
+
+PACKAGE="master.zip"
+fileurl="https://github.com/1000yun/ags/archive/${PACKAGE}"
+
 COMPOSE_FILENAME="docker-compose.yml"
 BOOT_SH_FILENAME="start_swarm.sh"
 UPDATE_SH_FILENAME="update.sh"
@@ -38,7 +42,8 @@ then
 else
         echo "success,download"
 fi
-tar zxvf ${PACKAGE} -C /usr/loca/ags
+tar zxvf ${PACKAGE} -C /usr/local/ags
+unzip ${PACKAGE} -d /usr/local/ags 
 
 #LOGFILE=/usr/local/ags/install.tmp.log
 #date >>$LOGFILE
