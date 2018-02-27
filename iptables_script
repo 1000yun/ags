@@ -1,0 +1,13 @@
+#!/bin/bash
+
+systemctl stop firewalld  
+systemctl mask firewalld 
+yum install iptables-services  
+systemctl enable iptables
+
+#/etc/sysconfig/iptables里添加
+
+echo "-A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT"  >> /etc/sysconfig/iptables
+echo "-A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport 443 -j ACCEPT"  >> /etc/sysconfig/iptables
+# service iptables save
+systemctl restart iptables

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+#systemctl status firewalld
+systemctl start firewalld
+#systemctl status firewalld
+firewall-cmd --permanent --zone=public --add-port=80/tcp
+firewall-cmd --permanent --zone=public --add-port=443/tcp
+
