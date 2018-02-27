@@ -16,7 +16,7 @@ services:
        - ags_network
 
   openresty:
-      image: registry.cn-hangzhou.aliyuncs.com/ags/image_openresty_dev
+      image: registry.cn-hangzhou.aliyuncs.com/ags/image_openresty
       networks:
        - ags_network
 
