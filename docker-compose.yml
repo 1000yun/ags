@@ -3,47 +3,34 @@ services:
 
 
   redis:
-      image: registry.cn-hangzhou.aliyuncs.com/es/img_redis
+      image: registry.cn-hangzhou.aliyuncs.com/ags/image_redis
       networks:
-       - es_network      
+       - ags_network      
 #      ports:
 #       - "6379:6379"
-      volumes:
-       - /usr/redis_database/:/data/
 
 
   webadmin:
-      image: registry.cn-hangzhou.aliyuncs.com/es/img_webadmin
-      #ports:
-      # - "8080:8080"
+      image: registry.cn-hangzhou.aliyuncs.com/ags/image_nginx_webadmin
       networks:
-       - es_network
-
-  php:
-      image: registry.cn-hangzhou.aliyuncs.com/es/img_php
-      networks:
-       - es_network
-
-
+       - ags_network
 
   openresty:
-      image: registry.cn-hangzhou.aliyuncs.com/es/img_openresty_dev
+      image: registry.cn-hangzhou.aliyuncs.com/ags/image_openresty_dev
       networks:
-       - es_network
- #     volumes:
- #      - /root/es/code:/usr/ib
+       - ags_network
 
 
   es:
-      image: registry.cn-hangzhou.aliyuncs.com/es/elasticsearch
-      ports:
-        - "9200:9200"
+      image: registry.cn-hangzhou.aliyuncs.com/ags/image_elasticsearch
+#      ports:
+#        - "9200:9200"
       networks:
-       - es_network
+       - ags_network
 
 
 
 networks:  
-  es_network:
+  ags_network:
     external: true
 
