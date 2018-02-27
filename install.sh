@@ -4,8 +4,14 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 
+
+mkdir /usr/local/ags
+touch /usr/local/ags/install.tmp.log
+touch /usr/local/ags/update.tmp.log
 LOGFILE=/usr/local/ags/install.tmp.log
 date >>$LOGFILE
+
+
 show_log()    ## 函数定义
 {
 
@@ -20,7 +26,7 @@ show_log()    ## 函数定义
 
 echo "[1/9]download install file"
 PACKAGE="ags.tar.gz"
-fileurl="http://file.aliyun.com/file/${PACKAGE}"
+fileurl="https://github.com/1000yun/ags/raw/master/${PACKAGE}"
 COMPOSE_FILENAME="docker-compose.yml"
 BOOT_SH_FILENAME="start_swarm.sh"
 UPDATE_SH_FILENAME="update.sh"
@@ -33,6 +39,12 @@ else
         echo "success,download"
 fi
 tar zxvf ${PACKAGE} -C /usr/loca/ags
+
+#LOGFILE=/usr/local/ags/install.tmp.log
+#date >>$LOGFILE
+
+
+
 cd /usr/local/ags
 chmod +x /usr/local/ags/${UPDATE_SH_FILENAME}
 chmod +x /usr/local/ags/${BOOT_SH_FILENAME}
