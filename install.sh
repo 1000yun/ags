@@ -30,7 +30,7 @@ fileurl="https://github.com/1000yun/ags/raw/master/${PACKAGE}"
 COMPOSE_FILENAME="docker-compose.yml"
 BOOT_SH_FILENAME="start_swarm.sh"
 UPDATE_SH_FILENAME="update.sh"
-wget -nv fileurl
+wget -nv $fileurl
 if [ "$?" != 0 ] ;
 then
          echo "download file err!!!"
