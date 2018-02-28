@@ -71,6 +71,7 @@ if [ "$?" != 0 ] ;
 then
          echo "docker swarm not existing,create..." | tee -a $LOGFILE
          docker swarm init   | tee -a $LOGFILE
+        if [ "$?" != 0 ] ;
                  echo "err! swarm init err!"  | tee -a $LOGFILE
                  exit 0
         else
