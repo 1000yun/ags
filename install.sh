@@ -10,7 +10,10 @@ touch /usr/local/ags/install.tmp.log
 touch /usr/local/ags/update.tmp.log
 
 LOGFILE=/usr/local/ags/install.tmp.log
-date >>$LOGFILE
+TOTLE=9
+#NOW=1
+
+date > $LOGFILE
 
 
 show_log()    ## 函数定义
@@ -23,7 +26,7 @@ show_log()    ## 函数定义
 }
 
 
-echo "[1/9]download install file"
+echo "[1/${TOTLE}]download install file"
 #PACKAGE="ags.tar.gz"
 #fileurl="https://github.com/1000yun/ags/raw/master/${PACKAGE}"
 
@@ -54,24 +57,41 @@ chmod +x /usr/local/ags/${UPDATE_SH_FILENAME}
 chmod +x /usr/local/ags/${BOOT_SH_FILENAME}
 echo " success,change install file"
 
-echo "[2/9]check docker install..."   | tee -a $LOGFILE
-rpm -qa | grep docker | tee -a $LOGFILE
+echo "[2/${TOTAL}]check docker install..."   | tee -a $LOGFILE
+rpm -qa | grep docker >> $LOGFILE
 if [ "$?" != 0 ] ;
 then
          echo "error! not find docker!!!" | tee -a $LOGFILE
          exit 0
 else
-        echo " success" | tee -a $LOGFILE
+        echo " success" | tee -a $LOGFILE	
+
+fi
+
+echo "[3/${TOTAL}]check docker version..."   | tee -a $LOGFILE
+DOCKER_INFO=`rpm -qa | grep docker`
+VERSION_NOW=`echo $DOCKER_INFO | grep  -o "\([0-9]*\.[0-9]*\)" |  head -n1`
+VERSION_NEED=17.04
+VERSION_OK=`echo $VERSION_NOW $VERSION_NEED |awk '{if($1>$2){print 1;}else{print 0;}}'`
+if [ $VERSION_OK -eq 1 ];
+then
+        echo "now docker version:$VERSION_NOW" | tee -a $LOGFILE
+        echo " success"
+else
+        echo "the docker version at least  more then 17.04" | tee -a $LOGFILE
+	exit 0 
 fi
 
 
-echo "[3/9]init swarm" | tee -a $LOGFILE
-docker swarm join-token manager | tee -a $LOGFILE
+
+echo "[4/${TOTAL}]init swarm" | tee -a $LOGFILE
+docker swarm join-token manager >> $LOGFILE
 if [ "$?" != 0 ] ;
 then
          echo "docker swarm not existing,create..." | tee -a $LOGFILE
-         docker swarm init   | tee -a $LOGFILE
+         docker swarm init   >> $LOGFILE
         if [ "$?" != 0 ] ;
+	then
                  echo "err! swarm init err!"  | tee -a $LOGFILE
                  exit 0
         else
@@ -81,10 +101,12 @@ else
         echo " success,the swarm has been created!" | tee -a $LOGFILE
 fi
 
-echo "[4/9]check netwrok.." | tee -a $LOGFILE
-docker network inspect   ags_network | tee -a $LOGFILE
+echo "[5/${TOTAL}]check netwrok.." | tee -a $LOGFILE
+docker network inspect   ags_network >>  $LOGFILE
+if [ "$?" != 0 ] ;
+then
         echo "ags_network not existing,create..." | tee -a $LOGFILE
-        docker network create   -d overlay ags_network | tee -a $LOGFILE
+        docker network create   -d overlay ags_network >> $LOGFILE
         if [ "$?" != 0 ] ;
         then
                  echo "err! create new network err!" | tee -a $LOGFILE
@@ -98,8 +120,8 @@ fi
 
 
 
-echo "[5/9]deploy stack ags.." | tee -a $LOGFILE
-docker stack ps ags
+echo "[6/${TOTAL}]deploy stack ags.." | tee -a $LOGFILE
+docker stack ps ags >> $LOGFILE
 if [ "$?" != 0 ] ;
 then
          echo "stack ags is existing!,will create..."  | tee -a $LOGFILE 
@@ -108,7 +130,7 @@ else
 #        docker stack rm ags
 fi
 
-docker stack deploy ags --compose-file=./${COMPOSE_FILENAME}  | tee -a $LOGFILE
+docker stack deploy ags --compose-file=./${COMPOSE_FILENAME}  >> $LOGFILE
 if [ "$?" != 0 ] ;
 then
         echo "err!  stack deploy ags  err!"  | tee -a $LOGFILE 
@@ -118,8 +140,8 @@ else
 fi
 
 
-echo "[6/9]create ags_proxy service.."  | tee -a $LOGFILE
-docker service ps ags_proxy  | tee -a $LOGFILE
+echo "[7/${TOTAL}]create ags_proxy service.."  | tee -a $LOGFILE
+docker service ps ags_proxy  >> $LOGFILE
 if [ "$?" != 0 ] ;
 then
         echo "service_proxy service isn't existing,create..."  | tee -a $LOGFILE
@@ -136,7 +158,7 @@ else
 fi
 
 
-echo "[7/9]install update cron."  | tee -a $LOGFILE
+echo "[8/${TOTAL}]install update cron."  | tee -a $LOGFILE
 
 if grep -q "/usr/local/ags/${UPDATE_SH_FILENAME}"  /var/spool/cron/root
 then
@@ -171,14 +193,5 @@ fi
 #fi
 
 
-#echo "[9/]open iptables port...???"
-#iptables -I INPUT -p tcp --dport 80 -j ACCEPT&&iptables -I INPUT -p tcp --dport 443 -j ACCEPT
-#if [ "$?" != 0 ] ;
-#then
-#         echo "open iptables port err!"
-#         exit 0
-#else
-#echo " success"
-#fi
 
-echo "[9/9]done"  | tee -a $LOGFILE
+echo "[9/${TOTAL}]done"  | tee -a $LOGFILE

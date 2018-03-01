@@ -6,6 +6,8 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 LOGFILE=/usr/local/ags/update.tmp.log
 #echo $logfile
+date > $LOGFILE
+
 
 show_log()    ## 函数定义
 {
