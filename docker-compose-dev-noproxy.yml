@@ -19,10 +19,20 @@ services:
       networks:
        - ags_network
 
+  webjs:
+      image: registry.cn-hangzhou.aliyuncs.com/ags/image_nginx_client_js
+      #ports:
+      # - "8080:8080"
+      networks:
+       - ags_network
+
+
   openresty:
       image: registry.cn-hangzhou.aliyuncs.com/ags/image_openresty_dev
       networks:
        - ags_network
+#      ports:
+#       - "80:80"
       volumes:
        - /root/es/code:/usr/ib
 
@@ -31,13 +41,6 @@ services:
       image: registry.cn-hangzhou.aliyuncs.com/ags/image_elasticsearch
       ports:
         - "9200:9200"
-      networks:
-       - ags_network
-
-  webjs:
-      image: registry.cn-hangzhou.aliyuncs.com/ags/image_nginx_client_js
-      #ports:
-      # - "8080:8080"
       networks:
        - ags_network
 

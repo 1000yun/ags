@@ -76,6 +76,19 @@ if [ "$?" != 0 ] ;
          echo "success!"  | tee -a $LOGFILE
 fi
 
+echo -e  | tee -a $LOGFILE
+echo  "[4/12]check ags_webjs service"  | tee -a $LOGFILE
+docker service ps ags_webjs   >> $LOGFILE  2>&1
+
+if [ "$?" != 0 ] ;
+      then
+         echo "error! can't find ags_webjs serivce !please install first!" | tee -a $LOGFILE
+         show_log
+         exit 0
+      else
+         echo "success!"  | tee -a $LOGFILE
+fi
+
 
 
 echo -e  | tee -a $LOGFILE
@@ -179,6 +192,21 @@ if [ "$?" != 0 ] ;
          echo "success!"  | tee -a $LOGFILE
 
 fi
+
+echo -e  | tee -a $LOGFILE
+echo "[11/12]update ags_webjs service,need about 10 minutes,please wait..."  | tee -a $LOGFILE
+
+docker service update --image registry.cn-hangzhou.aliyuncs.com/ags/image_nginx_webjs  ags_webjs >> $LOGFILE  2>&1
+if [ "$?" != 0 ] ;
+      then
+       echo "err! update  ags_webjs serivce err !"  | tee -a $LOGFILE
+       show_log
+       exit 0
+     else
+         echo "success!"  | tee -a $LOGFILE
+
+fi
+
 
 #检查程序是否安装成功
 

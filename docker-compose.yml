@@ -18,6 +18,14 @@ services:
       networks:
        - ags_network
 
+  webjs:
+      image: registry.cn-hangzhou.aliyuncs.com/ags/image_nginx_client_js
+      #ports:
+      # - "8080:8080"
+      networks:
+       - ags_network
+
+
   openresty:
       image: registry.cn-hangzhou.aliyuncs.com/ags/image_openresty
       networks:
