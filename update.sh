@@ -196,7 +196,7 @@ fi
 echo -e  | tee -a $LOGFILE
 echo "[11/12]update ags_webjs service,need about 10 minutes,please wait..."  | tee -a $LOGFILE
 
-docker service update --image registry.cn-hangzhou.aliyuncs.com/ags/image_nginx_webjs  ags_webjs >> $LOGFILE  2>&1
+docker service update --image registry.cn-hangzhou.aliyuncs.com/ags/image_nginx_client_js  ags_webjs >> $LOGFILE  2>&1
 if [ "$?" != 0 ] ;
       then
        echo "err! update  ags_webjs serivce err !"  | tee -a $LOGFILE
