@@ -6,6 +6,8 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 LOGFILE=/usr/local/ags/update.tmp.log
 #echo $logfile
+
+TOTAL=14
 date > $LOGFILE
 
 
@@ -19,7 +21,7 @@ show_log()    ## 函数定义
 }   
 
 
-echo "[1/12]check docker install..." | tee $LOGFILE  
+echo "[1/${TOTAL}]check docker install..." | tee $LOGFILE  
 rpm -qa | grep docker >>  $LOGFILE  2>&1
 
 #exit 0
@@ -37,7 +39,7 @@ else
 fi
 
 echo -e  | tee -a $LOGFILE
-echo  "[2/12] check ags_proxy service..." | tee -a $LOGFILE
+echo  "[2/${TOTAL}] check ags_proxy service..." | tee -a $LOGFILE
 docker service ps ags_proxy >> $LOGFILE  2>&1
 
 if [ "$?" != 0 ] ;
@@ -51,7 +53,7 @@ fi
 
 
 echo -e  | tee -a $LOGFILE
-echo  "[3/12]check ags_openresty service"
+echo  "[3/${TOTAL}]check ags_openresty service"
 docker service ps ags_openresty  >> $LOGFILE  2>&1
 
 if [ "$?" != 0 ] ;
@@ -64,7 +66,7 @@ if [ "$?" != 0 ] ;
 fi
 
 echo -e  | tee -a $LOGFILE
-echo  "[4/12]check ags_webadmin service"  | tee -a $LOGFILE
+echo  "[4/${TOTAL}]check ags_webadmin service"  | tee -a $LOGFILE
 docker service ps ags_webadmin   >> $LOGFILE  2>&1
 
 if [ "$?" != 0 ] ;
@@ -77,7 +79,7 @@ if [ "$?" != 0 ] ;
 fi
 
 echo -e  | tee -a $LOGFILE
-echo  "[4/12]check ags_webjs service"  | tee -a $LOGFILE
+echo  "[5/${TOTAL}]check ags_webjs service"  | tee -a $LOGFILE
 docker service ps ags_webjs   >> $LOGFILE  2>&1
 
 if [ "$?" != 0 ] ;
@@ -92,7 +94,7 @@ fi
 
 
 echo -e  | tee -a $LOGFILE
-echo  "[5/12]check ags_redis service"  | tee -a $LOGFILE
+echo  "[6/${TOTAL}]check ags_redis service"  | tee -a $LOGFILE
 docker service ps ags_redis  >> $LOGFILE  2>&1
 
 if [ "$?" != 0 ] ;
@@ -106,7 +108,7 @@ fi
 
 # check ags service
 echo -e  | tee -a $LOGFILE
-echo  "[6/12]check ags_es"  | tee -a $LOGFILE
+echo  "[7/${TOTAL}]check ags_es"  | tee -a $LOGFILE
 docker service ps ags_es  >> $LOGFILE  2>&1
 
 if [ "$?" != 0 ] ;
@@ -122,7 +124,7 @@ fi
 #exit 0
 
 echo -e  | tee -a $LOGFILE
-echo "[7/12]update ags_proxy service,need about 3 minutes,please wait..."  | tee -a $LOGFILE
+echo "[8/${TOTAL}]update ags_proxy service,need about 3 minutes,please wait..."  | tee -a $LOGFILE
 docker service update --image registry.cn-hangzhou.aliyuncs.com/ags/image_nginx_proxy  ags_proxy >> $LOGFILE  2>&1
 if [ "$?" != 0 ] ;
       then    
@@ -135,7 +137,7 @@ if [ "$?" != 0 ] ;
 fi
 
 echo -e  | tee -a $LOGFILE
-echo "[8/12]update ags_redis service,need about 3 minutes,please wait..."  | tee -a $LOGFILE
+echo "[9/${TOTAL}]update ags_redis service,need about 3 minutes,please wait..."  | tee -a $LOGFILE
 
 
 docker service update --image registry.cn-hangzhou.aliyuncs.com/ags/image_redis  ags_redis >> $LOGFILE  2>&1
@@ -150,7 +152,7 @@ if [ "$?" != 0 ] ;
 fi
 
 echo -e  | tee -a $LOGFILE
-echo "[9/12]update ags_es service,need about 3 minutes,please wait..."  | tee -a $LOGFILE
+echo "[10/${TOTAL}]update ags_es service,need about 3 minutes,please wait..."  | tee -a $LOGFILE
 
 docker service update --image registry.cn-hangzhou.aliyuncs.com/ags/image_elasticsearch  ags_es >> $LOGFILE  2>&1
 if [ "$?" != 0 ] ;
@@ -165,7 +167,7 @@ fi
 
 
 echo -e  | tee -a $LOGFILE
-echo "[10/12]update ags_openresty service,need about 3 minutes,please wait..."  | tee -a $LOGFILE
+echo "[11/${TOTAL}]update ags_openresty service,need about 3 minutes,please wait..."  | tee -a $LOGFILE
 
 docker service update --image registry.cn-hangzhou.aliyuncs.com/ags/image_openresty  ags_openresty >> $LOGFILE  2>&1
 if [ "$?" != 0 ] ;
@@ -180,7 +182,7 @@ fi
 
 
 echo -e  | tee -a $LOGFILE
-echo "[11/12]update ags_webadmin service,need about 10 minutes,please wait..."  | tee -a $LOGFILE
+echo "[12/${TOTAL}]update ags_webadmin service,need about 10 minutes,please wait..."  | tee -a $LOGFILE
 
 docker service update --image registry.cn-hangzhou.aliyuncs.com/ags/image_nginx_webadmin  ags_webadmin >> $LOGFILE  2>&1
 if [ "$?" != 0 ] ;
@@ -194,7 +196,7 @@ if [ "$?" != 0 ] ;
 fi
 
 echo -e  | tee -a $LOGFILE
-echo "[11/12]update ags_webjs service,need about 10 minutes,please wait..."  | tee -a $LOGFILE
+echo "[13/${TOTAL}]update ags_webjs service,need about 10 minutes,please wait..."  | tee -a $LOGFILE
 
 docker service update --image registry.cn-hangzhou.aliyuncs.com/ags/image_nginx_client_js  ags_webjs >> $LOGFILE  2>&1
 if [ "$?" != 0 ] ;
@@ -211,4 +213,4 @@ fi
 #检查程序是否安装成功
 
 echo -e  | tee -a $LOGFILE
-echo "[12/12]done" | tee -a $LOGFILE
+echo "[14/${TOTAL}]done" | tee -a $LOGFILE

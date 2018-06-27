@@ -10,7 +10,7 @@ touch /usr/local/ags/install.tmp.log
 touch /usr/local/ags/update.tmp.log
 
 LOGFILE=/usr/local/ags/install.tmp.log
-TOTLE=9
+TOTAL=10
 #NOW=1
 
 date > $LOGFILE
@@ -26,7 +26,7 @@ show_log()    ## 函数定义
 }
 
 
-echo "[1/${TOTLE}]download install file"
+echo "[1/${TOTAL}]download install file"
 #PACKAGE="ags.tar.gz"
 #fileurl="https://github.com/1000yun/ags/raw/master/${PACKAGE}"
 
@@ -145,6 +145,9 @@ docker service ps ags_proxy  >> $LOGFILE
 if [ "$?" != 0 ] ;
 then
         echo "service_proxy service isn't existing,create..."  | tee -a $LOGFILE
+
+	docker service create --name ags_proxy --publish "mode=host,target=80,published=80" --publish "mode=host,target=443,published=443" --publish "mode=host,target=7070,published=7070" --publish "mode=host,target=7070,published=7071" --publish "mode=host,target=7072,published=7072"   --mode global --network ags_network registry.cn-hangzhou.aliyuncs.com/ags/image_nginx_proxy:latest  >> $LOGFILE
+
         if [ "$?" != 0 ] ;
         then
                 echo "err! create ags_proxy service err!"          | tee -a $LOGFILE
@@ -176,7 +179,7 @@ else
 
 fi
 
-#echo "[8/9]install boot service script."  | tee -a $LOGFILE
+#echo "[9/9]install boot service script."  | tee -a $LOGFILE
 #if grep -q "/usr/local/ags/${BOOT_SH_FILENAME}"  /etc/rc.d/rc.local
 #then
 #        echo "success,the boot script is existing."  | tee -a $LOGFILE
@@ -194,4 +197,4 @@ fi
 
 
 
-echo "[9/${TOTAL}]done"  | tee -a $LOGFILE
+echo "[10/${TOTAL}]done"  | tee -a $LOGFILE
