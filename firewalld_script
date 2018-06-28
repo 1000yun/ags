@@ -5,4 +5,10 @@ systemctl start firewalld
 #systemctl status firewalld
 firewall-cmd --permanent --zone=public --add-port=80/tcp
 firewall-cmd --permanent --zone=public --add-port=443/tcp
+firewall-cmd --permanent --zone=public --add-port=7070/tcp
+firewall-cmd --permanent --zone=public --add-port=7071/tcp
+firewall-cmd --permanent --zone=public --add-port=7072/tcp
+
+
+
 

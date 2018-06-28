@@ -5,7 +5,8 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 
 
-mkdir /usr/local/ags
+mkdir  -p /usr/local/ags
+mkdir  -p /usr/local/ags/redis_database
 touch /usr/local/ags/install.tmp.log
 touch /usr/local/ags/update.tmp.log
 
@@ -26,6 +27,22 @@ show_log()    ## 函数定义
 }
 
 
+echo "check memoy..."
+mt=`free | tr [:blank:] \\\n | grep [0-9] | sed -n '1p'`
+# st=`free | tr [:blank:] \\\n | grep [0-9] | sed -n '9p'`
+# t=`expr $mt + $st`
+
+#echo "Total Mem: $t"
+
+if [ $mt -lt 1800000 ]
+then
+        echo "the system install fail!the momery  at least need 2G"
+        exit 0
+else
+	echo "check memory success"
+fi
+
+
 echo "[1/${TOTAL}]download install file"
 #PACKAGE="ags.tar.gz"
 #fileurl="https://github.com/1000yun/ags/raw/master/${PACKAGE}"
@@ -34,17 +51,6 @@ COMPOSE_FILENAME="docker-compose.yml"
 BOOT_SH_FILENAME="start_swarm.sh"
 UPDATE_SH_FILENAME="update.sh"
 
-# wget -nv $fileurl
-# if [ "$?" != 0 ] ;
-# then
-#         echo "download file err!!!"
-#         exit 0
-#else
-#        echo "success,download"
-# fi
-
-# tar zxvf ${PACKAGE} -C /usr/local/ags
-#unzip ${PACKAGE} -d /usr/local/ags
 
 cd /usr/local/ags
 
@@ -56,6 +62,10 @@ wget -Nv ${filepre}${UPDATE_SH_FILENAME}
 chmod +x /usr/local/ags/${UPDATE_SH_FILENAME}
 chmod +x /usr/local/ags/${BOOT_SH_FILENAME}
 echo " success,change install file"
+
+
+ 
+
 
 echo "[2/${TOTAL}]check docker install..."   | tee -a $LOGFILE
 rpm -qa | grep docker >> $LOGFILE

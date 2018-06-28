@@ -9,7 +9,9 @@ services:
 #      ports:
 #       - "6379:6379"
       volumes:
-       - /usr/redis_database/:/data/
+#       - /usr/redis_database/:/data/
+       - /usr/local/ags/redis_database/:/data/
+
 
 
 
