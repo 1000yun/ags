@@ -171,14 +171,27 @@ else
 fi
 
 
+
+
 echo "[8/${TOTAL}]install update cron."  | tee -a $LOGFILE
 
-if grep -q "/usr/local/ags/${UPDATE_SH_FILENAME}"  /var/spool/cron/root
-then
-	echo "success,update cron task is existing."  | tee -a $LOGFILE
-else
+ 
+ #随机数,表示随机一个59以内的数
+randNum=$(($RANDOM%59))
+ 
+#user 表示当前登陆的用户
+#path /var/spool/cron/crontabs
+#生成crontab 任务配置文件
+#表示在 每周一到周五早上3点到3点30之间，随机一个时间执行一次数据备份
+#echo $[randNum]" 3 * * 1-5 /path/backdb.sh" > /path/user
+
+#if grep -q "/usr/local/ags/${UPDATE_SH_FILENAME}"  /var/spool/cron/root
+#then
+#	echo "success,update cron task is existing."  | tee -a $LOGFILE
+#else
 	# cron 每天3点10分，执行 update.sh
-	echo  "10 3 * * * /usr/local/ags/${UPDATE_SH_FILENAME} > /dev/null 2>&1"  >> /var/spool/cron/root
+	# echo  "10 3 * * * /usr/local/ags/${UPDATE_SH_FILENAME} > /dev/null 2>&1"  >> /var/spool/cron/root
+	echo  $[randNum]" 3 * * * /usr/local/ags/${UPDATE_SH_FILENAME} > /dev/null 2>&1"  >> /var/spool/cron/root
 	if [ "$?" != 0 ] ;
 	then
         	 echo "err!  set update cron err!"   | tee -a $LOGFILE
@@ -187,7 +200,7 @@ else
         	echo " success"  | tee -a $LOGFILE
 	fi
 
-fi
+# fi
 
 #echo "[9/9]install boot service script."  | tee -a $LOGFILE
 #if grep -q "/usr/local/ags/${BOOT_SH_FILENAME}"  /etc/rc.d/rc.local
