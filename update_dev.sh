@@ -63,18 +63,18 @@ if [ "$?" != 0 ] ;
  	   echo "success!"  | tee -a $LOGFILE
 fi
 
-echo -e  | tee -a $LOGFILE
-echo  "[4/12]check ags_webadmin service"  | tee -a $LOGFILE
-docker service ps ags_webadmin   >> $LOGFILE  2>&1
+#echo -e  | tee -a $LOGFILE
+#echo  "[4/12]check ags_webadmin service"  | tee -a $LOGFILE
+#docker service ps ags_webadmin   >> $LOGFILE  2>&1
 
-if [ "$?" != 0 ] ;
-      then 
-         echo "error! can't find ags_webadmin serivce !please install first!" | tee -a $LOGFILE
-         show_log
-         exit 0
-      else
-         echo "success!"  | tee -a $LOGFILE
-fi
+#if [ "$?" != 0 ] ;
+#      then 
+#         echo "error! can't find ags_webadmin serivce !please install first!" | tee -a $LOGFILE
+#         show_log
+#         exit 0
+#      else
+#         echo "success!"  | tee -a $LOGFILE
+#fi
 
 echo -e  | tee -a $LOGFILE
 echo  "[4/12]check ags_webjs service"  | tee -a $LOGFILE
@@ -123,7 +123,7 @@ fi
 
 echo -e  | tee -a $LOGFILE
 echo "[7/12]update ags_proxy service,need about 3 minutes,please wait..."  | tee -a $LOGFILE
-docker service update --image registry.cn-hangzhou.aliyuncs.com/ags/image_nginx_proxy  ags_proxy >> $LOGFILE  2>&1
+docker service update --image registry.cn-hangzhou.aliyuncs.com/ags/image_openresty_proxy  ags_proxy >> $LOGFILE  2>&1
 if [ "$?" != 0 ] ;
       then    
        echo "error! can't find  ags_proxy serivce ! please install first!"  | tee -a $LOGFILE
@@ -179,19 +179,19 @@ if [ "$?" != 0 ] ;
 fi
 
 
-echo -e  | tee -a $LOGFILE
-echo "[11/12]update ags_webadmin service,need about 10 minutes,please wait..."  | tee -a $LOGFILE
+#echo -e  | tee -a $LOGFILE
+#echo "[11/12]update ags_webadmin service,need about 10 minutes,please wait..."  | tee -a $LOGFILE
 
-docker service update --image registry.cn-hangzhou.aliyuncs.com/ags/image_nginx_webadmin  ags_webadmin >> $LOGFILE  2>&1
-if [ "$?" != 0 ] ;
-      then    
-       echo "err! update  ags_webadmin serivce err !"  | tee -a $LOGFILE
-       show_log
-       exit 0  
-     else    
-         echo "success!"  | tee -a $LOGFILE
+#docker service update --image registry.cn-hangzhou.aliyuncs.com/ags/image_nginx_webadmin  ags_webadmin >> $LOGFILE  2>&1
+#if [ "$?" != 0 ] ;
+#      then    
+#       echo "err! update  ags_webadmin serivce err !"  | tee -a $LOGFILE
+#       show_log
+#       exit 0  
+#     else    
+#         echo "success!"  | tee -a $LOGFILE
 
-fi
+#fi
 
 echo -e  | tee -a $LOGFILE
 echo "[11/12]update ags_webjs service,need about 10 minutes,please wait..."  | tee -a $LOGFILE
