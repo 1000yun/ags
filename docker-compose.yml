@@ -15,10 +15,10 @@ services:
 
 
 
-  webadmin:
-      image: registry.cn-hangzhou.aliyuncs.com/ags/image_nginx_webadmin
-      networks:
-       - ags_network
+#  webadmin:
+#      image: registry.cn-hangzhou.aliyuncs.com/ags/image_nginx_webadmin
+#      networks:
+#       - ags_network
 
   webjs:
       image: registry.cn-hangzhou.aliyuncs.com/ags/image_nginx_client_js

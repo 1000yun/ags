@@ -28,11 +28,11 @@ show_log()    ## 函数定义
 
 
 if [ `whoami` = "root" ];then
-        echo "root user！"
+	echo "root user！"
 else
-        echo "must root user！"
-        exit 0
-
+	echo "must root user！"
+	exit 0
+	
 fi
 
 
@@ -77,7 +77,10 @@ echo " success,change install file"
 
 
 echo "[2/${TOTAL}]check docker install..."   | tee -a $LOGFILE
-rpm -qa | grep docker >> $LOGFILE
+
+## rpm -qa | grep docker >> $LOGFILE
+
+docker --version >> $LOGFILE
 if [ "$?" != 0 ] ;
 then
          echo "error! not find docker!!!" | tee -a $LOGFILE
@@ -88,7 +91,8 @@ else
 fi
 
 echo "[3/${TOTAL}]check docker version..."   | tee -a $LOGFILE
-DOCKER_INFO=`rpm -qa | grep docker`
+##DOCKER_INFO=`rpm -qa | grep docker`
+DOCKER_INFO=`docker --version`
 VERSION_NOW=`echo $DOCKER_INFO | grep  -o "\([0-9]*\.[0-9]*\)" |  head -n1`
 VERSION_NEED=17.04
 VERSION_OK=`echo $VERSION_NOW $VERSION_NEED |awk '{if($1>$2){print 1;}else{print 0;}}'`
