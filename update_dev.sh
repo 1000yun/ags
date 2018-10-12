@@ -63,18 +63,18 @@ if [ "$?" != 0 ] ;
  	   echo "success!"  | tee -a $LOGFILE
 fi
 
-#echo -e  | tee -a $LOGFILE
-#echo  "[4/12]check ags_webadmin service"  | tee -a $LOGFILE
-#docker service ps ags_webadmin   >> $LOGFILE  2>&1
+echo -e  | tee -a $LOGFILE
+echo  "[4/12]check ags_webadmin service"  | tee -a $LOGFILE
+docker service ps ags_webadmin   >> $LOGFILE  2>&1
 
-#if [ "$?" != 0 ] ;
-#      then 
-#         echo "error! can't find ags_webadmin serivce !please install first!" | tee -a $LOGFILE
-#         show_log
-#         exit 0
-#      else
-#         echo "success!"  | tee -a $LOGFILE
-#fi
+if [ "$?" != 0 ] ;
+      then 
+         echo "error! can't find ags_webadmin serivce !please install first!" | tee -a $LOGFILE
+         show_log
+         exit 0
+      else
+         echo "success!"  | tee -a $LOGFILE
+fi
 
 echo -e  | tee -a $LOGFILE
 echo  "[4/12]check ags_webjs service"  | tee -a $LOGFILE
