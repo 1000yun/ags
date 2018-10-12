@@ -165,7 +165,7 @@ if [ "$?" != 0 ] ;
 then
         echo "service_proxy service isn't existing,create..."  | tee -a $LOGFILE
 
-	docker service create --name ags_proxy --publish "mode=host,target=80,published=80" --publish "mode=host,target=443,published=443"    --mode global --network ags_network registry.cn-hangzhou.aliyuncs.com/ags/image_nginx_proxy:latest  >> $LOGFILE
+	docker service create --name ags_proxy --publish "mode=host,target=80,published=80" --publish "mode=host,target=443,published=443"    --mode global --network ags_network registry.cn-hangzhou.aliyuncs.com/ags/image_openresty_proxy:latest  >> $LOGFILE
 
         if [ "$?" != 0 ] ;
         then
