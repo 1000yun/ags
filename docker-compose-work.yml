@@ -41,7 +41,7 @@ services:
        - redis
        - openresty
 
-   proxy:
+  proxy:
       image: registry.cn-hangzhou.aliyuncs.com/ags/image_openresty_proxy
       deploy:
        mode: global
