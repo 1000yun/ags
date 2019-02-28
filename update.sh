@@ -182,19 +182,19 @@ fi
 
 
 
-#echo -e  | tee -a $LOGFILE
-#echo "[12/${TOTAL}]update ags_webadmin service,need about 10 minutes,please wait..."  | tee -a $LOGFILE
+echo -e  | tee -a $LOGFILE
+echo "[12/${TOTAL}]update ags_webadmin service,need about 10 minutes,please wait..."  | tee -a $LOGFILE
 
-#docker service update --image registry.cn-hangzhou.aliyuncs.com/ags/image_nginx_webadmin  ags_webadmin >> $LOGFILE  2>&1
-#if [ "$?" != 0 ] ;
-#      then    
-#       echo "err! update  ags_webadmin serivce err !"  | tee -a $LOGFILE
-#       show_log
-#       exit 0  
-#     else    
-#         echo "success!"  | tee -a $LOGFILE
+docker service update --image registry.cn-hangzhou.aliyuncs.com/ags/image_nginx_webadmin  ags_webadmin >> $LOGFILE  2>&1
+if [ "$?" != 0 ] ;
+      then    
+       echo "err! update  ags_webadmin serivce err !"  | tee -a $LOGFILE
+       show_log
+       exit 0  
+     else    
+         echo "success!"  | tee -a $LOGFILE
 
-#fi
+fi
 
 echo -e  | tee -a $LOGFILE
 echo "[13/${TOTAL}]update ags_webjs service,need about 10 minutes,please wait..."  | tee -a $LOGFILE

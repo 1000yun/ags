@@ -11,6 +11,27 @@ services:
       volumes:
        - /usr/redis_database/:/data/
 
+#  proxy:
+#      image: registry.cn-hangzhou.aliyuncs.com/ags/image_openresty_proxy:latest
+#      networks:
+#       - ags_network
+#      ports:
+#       - target: 80
+#         published: 80
+#         protocol: tcp
+#         mode: host
+#       - target: 433
+#         published: 433
+#         protocol: tcp
+#         mode: host
+##      deploy:
+##        replicas: 1
+##        placement:
+##          constraints: [node.labels.env==front]
+#      depends_on:
+#       - webjs
+#       - openresty
+
 
   webadmin:
       image: registry.cn-hangzhou.aliyuncs.com/ags/image_nginx_webadmin
@@ -18,6 +39,10 @@ services:
       # - "8080:8080"
       networks:
        - ags_network
+      depends_on:
+       - redis
+       - openresty
+
 
   openresty:
       image: registry.cn-hangzhou.aliyuncs.com/ags/image_openresty_dev
@@ -25,7 +50,8 @@ services:
        - ags_network
       volumes:
        - /root/es/code:/usr/ib
-
+      depends_on:
+       - redis
 
   es:
       image: registry.cn-hangzhou.aliyuncs.com/ags/image_elasticsearch
@@ -40,6 +66,9 @@ services:
       # - "8080:8080"
       networks:
        - ags_network
+      depends_on:
+       - webadmin
+       - openresty
 
 
 

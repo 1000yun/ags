@@ -159,25 +159,25 @@ else
 fi
 
 
-#echo "[7/${TOTAL}]create ags_proxy service.."  | tee -a $LOGFILE
-#docker service ps ags_proxy  >> $LOGFILE
-#if [ "$?" != 0 ] ;
-#then
-#        echo "service_proxy service isn't existing,create..."  | tee -a $LOGFILE
+echo "[7/${TOTAL}]create ags_proxy service.."  | tee -a $LOGFILE
+docker service ps ags_proxy  >> $LOGFILE
+if [ "$?" != 0 ] ;
+then
+        echo "service_proxy service isn't existing,create..."  | tee -a $LOGFILE
 
-#	docker service create --name ags_proxy --publish "mode=host,target=80,published=80" --publish "mode=host,target=443,published=443"    --mode global --network ags_network registry.cn-hangzhou.aliyuncs.com/ags/image_openresty_proxy:latest  >> $LOGFILE
+	docker service create --name ags_proxy --publish "mode=host,target=80,published=80" --publish "mode=host,target=443,published=443"    --mode global --network ags_network registry.cn-hangzhou.aliyuncs.com/ags/image_openresty_proxy:latest  >> $LOGFILE
 
-#        if [ "$?" != 0 ] ;
-#        then
-#                echo "err! create ags_proxy service err!"          | tee -a $LOGFILE
-#		exit 0
-#        else
-#                echo "success"  | tee -a $LOGFILE
-#        fi
-#else
-#        echo "success,the  ags_proxy service is existing"  | tee -a $LOGFILE
-##        docker service rm ags_proxy
-#fi
+        if [ "$?" != 0 ] ;
+        then
+                echo "err! create ags_proxy service err!"          | tee -a $LOGFILE
+		exit 0
+        else
+                echo "success"  | tee -a $LOGFILE
+        fi
+else
+        echo "success,the  ags_proxy service is existing"  | tee -a $LOGFILE
+#        docker service rm ags_proxy
+fi
 
 
 
