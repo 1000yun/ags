@@ -41,24 +41,24 @@ services:
        - redis
        - openresty
 
-  proxy:
-      image: registry.cn-hangzhou.aliyuncs.com/ags/image_openresty_proxy
-      deploy:
-       mode: global
-      ports:
-      - target: 80
-        published: 80
-        protocol: tcp
-        mode: host
-      - target: 443
-        published: 443
-        protocol: tcp
-        mode: host
-      networks:
-       - ags_network
-      depends_on:
-       - webjs
-       - openresty
+#  proxy:
+#      image: registry.cn-hangzhou.aliyuncs.com/ags/image_openresty_proxy
+#      deploy:
+#       mode: global
+#      ports:
+#      - target: 80
+#        published: 80
+#        protocol: tcp
+#        mode: host
+#      - target: 443
+#        published: 443
+#        protocol: tcp
+#        mode: host
+#      networks:
+#       - ags_network
+#      depends_on:
+#       - webjs
+#       - openresty
 
 
 
