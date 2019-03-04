@@ -56,7 +56,7 @@ echo "[1/${TOTAL}]download install file"
 #PACKAGE="ags.tar.gz"
 #fileurl="https://github.com/1000yun/ags/raw/master/${PACKAGE}"
 
-COMPOSE_FILENAME="docker-compose-work.yml"
+COMPOSE_FILENAME="docker-compose-work-noproxy.yml"
 BOOT_SH_FILENAME="start_swarm.sh"
 UPDATE_SH_FILENAME="update.sh"
 

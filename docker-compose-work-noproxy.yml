@@ -1,0 +1,77 @@
+version: "3.2"  
+services:   
+
+
+  redis:
+      image: registry.cn-hangzhou.aliyuncs.com/ags/image_redis
+      networks:
+       - ags_network      
+#      ports:
+#       - "6379:6379"
+      volumes:
+#       - /usr/redis_database/:/data/
+       - /usr/local/ags/redis_database/:/data/
+
+  webadmin:
+      image: registry.cn-hangzhou.aliyuncs.com/ags/image_nginx_webadmin
+      networks:
+       - ags_network
+      depends_on:
+       - redis
+       - openresty
+
+
+
+  webjs:
+      image: registry.cn-hangzhou.aliyuncs.com/ags/image_nginx_client_js
+      #ports:
+      # - "8080:8080"
+      networks:
+       - ags_network
+      depends_on:
+       - webadmin
+       - openresty
+
+
+  openresty:
+      image: registry.cn-hangzhou.aliyuncs.com/ags/image_openresty
+      networks:
+       - ags_network
+      depends_on:
+       - redis
+       - openresty
+
+  proxy:
+      image: registry.cn-hangzhou.aliyuncs.com/ags/image_openresty_proxy
+      deploy:
+       mode: global
+      ports:
+      - target: 80
+        published: 80
+        protocol: tcp
+        mode: host
+      - target: 443
+        published: 443
+        protocol: tcp
+        mode: host
+      networks:
+       - ags_network
+      depends_on:
+       - webjs
+       - openresty
+
+
+
+  es:
+      image: registry.cn-hangzhou.aliyuncs.com/ags/image_elasticsearch
+#      ports:
+#        - "9200:9200"
+      networks:
+       - ags_network
+
+
+
+networks:  
+  ags_network:
+    external: true
+
